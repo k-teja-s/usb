@@ -54,50 +54,20 @@ usb2_nrzi_encoder u_nrzi_enc (
     .o_valid(nrzi_valid)
 );
 
-// Line driver logic
-reg dp_out, dn_out, oe_out;
-reg tx_active;
-
-always @(posedge i_clk or negedge i_rst_n) begin
-    if (!i_rst_n) begin
-        dp_out <= 1'b0;
-        dn_out <= 1'b0;
-        oe_out <= 1'b0;
-        tx_active <= 1'b0;
-    end
-	else if (i_packet_start) begin
-        tx_active <= 1'b1;
-        oe_out <= 1'b1;
-    end
-	else if (i_packet_end || serial_done) begin
-        tx_active <= 1'b0;
-        oe_out <= 1'b0;
-    end
-	else if (nrzi_valid && tx_active) begin
-		if(i_hs_mode) begin
-			if (nrzi_data) begin
-				dp_out <= 1'b1;
-				dn_out <= 1'b0;
-			end else begin
-				dp_out <= 1'b0;
-				dn_out <= 1'b1;
-			end
-		end
-		else begin
-			if (nrzi_data) begin
-				dp_out <= 1'b0;
-				dn_out <= 1'b1;
-			end else begin
-				dp_out <= 1'b1;
-				dn_out <= 1'b0;
-			end
-		end
-    end
-end
-
-assign o_dp = dp_out;
-assign o_dn = dn_out;
-assign o_oe = oe_out;
-assign o_ready = ~tx_active;
+// line driver
+line_driver u_line_driver (
+    .i_clk(i_clk),
+    .i_rst_n(i_rst_n),
+    .i_nrzi_data(nrzi_data),
+    .i_nrzi_valid(nrzi_valid),
+    .i_packet_start(i_packet_start),
+    .i_packet_end(i_packet_end),
+    .i_serial_done(serial_done),
+    .i_hs_mode(i_hs_mode),
+    .o_dp(o_dp),
+    .o_dn(o_dn),
+    .o_oe(o_oe),
+    .o_ready(o_ready)
+);
 
 endmodule

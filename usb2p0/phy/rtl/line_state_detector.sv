@@ -13,10 +13,10 @@ module line_state_detector (
 	output reg		  o_hs_mode,
     output reg        o_squelch
 );
-
+`pragma protect begin
 parameter SQUELCH_THRESHOLD = 4'h3;
 
-typedef bit [1:0] enum {LS00_SE0,LS01_HSK_FSK,LS10_HSJ_FSJ,LS11_SE1} line_states;
+typedef enum bit [1:0] {LS00_SE0,LS01_HSK_FSK,LS10_HSJ_FSJ,LS11_SE1} line_states;
 line_states line_state_sync;
 
 reg [3:0] squelch_counter;
@@ -31,7 +31,12 @@ always @(posedge i_clk or negedge i_rst_n) begin
     end else begin
         dp_sync <= i_dp;
         dn_sync <= i_dn;
-        line_state_sync <= {dp_sync, dn_sync};
+		case({dp_sync, dn_sync})
+			2'b00:line_state_sync <= LS00_SE0;
+			2'b01:line_state_sync <= LS01_HSK_FSK;
+			2'b10:line_state_sync <= LS10_HSJ_FSJ;
+			2'b11:line_state_sync <= LS11_SE1;
+		endcase
     end
 end
 
@@ -78,5 +83,5 @@ always @(posedge i_clk or negedge i_rst_n) begin
         o_squelch <= 1'b0;
     end
 end
-
+`pragma protect end
 endmodule
