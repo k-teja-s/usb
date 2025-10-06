@@ -18,6 +18,7 @@ files_list = [
                 "features",
                 "limitations",
                 "file_structure",
+                "interface",
                 "registers",
                 "line_det_line_drv",
                 "possible_testcases"
