@@ -26,6 +26,8 @@ files_list = [
              
 if str(sys.argv[1]) == "all":
     for file in files_list:
-        os.system("pandoc ../../doc/impl/"+file+".md -o ../../doc/impl/"+file+".pdf --pdf-engine=wkhtmltopdf")
+        #os.system("pandoc ../../doc/impl/"+file+".md -o ../../doc/impl/"+file+".pdf --pdf-engine=wkhtmltopdf --css=style.css --self-contained --standalone")
+        os.system("pandoc ../../doc/impl/"+file+".md -o ../../doc/impl/"+file+".pdf --pdf-engine=wkhtmltopdf --css=style.css --embed-resources --standalone")
 else:
-    os.system("pandoc ../../doc/impl/"+str(sys.argv[1])+".md -o ../../doc/impl/"+str(sys.argv[1])+".pdf --pdf-engine=wkhtmltopdf")
+    #os.system("pandoc ../../doc/impl/"+str(sys.argv[1])+".md -o ../../doc/impl/"+str(sys.argv[1])+".pdf --pdf-engine=wkhtmltopdf --css=style.css --standalone --self-contained")
+    os.system("pandoc ../../doc/impl/"+str(sys.argv[1])+".md -o ../../doc/impl/"+str(sys.argv[1])+".pdf --pdf-engine=wkhtmltopdf --css=style.css --standalone --embed-resources")

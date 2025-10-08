@@ -1,0 +1,35 @@
+/* Table styling with all borders */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    border: 2px solid #000;
+}
+
+/* Table headers - bold */
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #000;
+}
+
+/* Table cells */
+td {
+    padding: 10px;
+    border: 1px solid #000;
+    background-color: #ffffff;
+}
+
+/* Remove alternate row colors */
+tr {
+    background-color: #ffffff;
+}
+
+/* Body text */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 40px;
+}
